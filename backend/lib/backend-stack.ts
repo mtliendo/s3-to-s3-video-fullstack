@@ -19,13 +19,6 @@ export class BackendStack extends cdk.Stack {
 			appName,
 		})
 
-		const videoAPI = createAmplifyGraphqlApi(this, {
-			appName,
-			userpool: userPool,
-			authenticatedRole: identityPool.authenticatedRole,
-			unauthenticatedRole: identityPool.unauthenticatedRole,
-		})
-
 		const videoUploadBucket = createVideoUploadBucket(this, {
 			appName,
 			authenticatedRole: identityPool.authenticatedRole,
@@ -52,6 +45,19 @@ export class BackendStack extends cdk.Stack {
 			mediaConvertArn: mediaConvertRole.roleArn,
 		})
 
+		const fetchVideoURLFunction = createFetchVideoURLFunction(this, {
+			appName,
+			destinationBucketArn: videoDownloadBucket.bucketArn,
+		})
+
+		const videoAPI = createAmplifyGraphqlApi(this, {
+			appName,
+			userpool: userPool,
+			authenticatedRole: identityPool.authenticatedRole,
+			unauthenticatedRole: identityPool.unauthenticatedRole,
+			getVideoURLFunc: fetchVideoURLFunction,
+		})
+
 		convertMediaFunction.addEnvironment('ROLE_ARN', mediaConvertRole.roleArn)
 		convertMediaFunction.addEnvironment(
 			'ENDPOINT',
@@ -61,11 +67,6 @@ export class BackendStack extends cdk.Stack {
 			'JOB_TEMPLATE_NAME',
 			mediaConvertJobTemplate.attrArn
 		)
-
-		const fetchVideoURLFunction = createFetchVideoURLFunction(this, {
-			appName,
-			destinationBucketArn: videoDownloadBucket.bucketArn,
-		})
 
 		fetchVideoURLFunction.addEnvironment(
 			'BUCKET_NAME',
@@ -77,5 +78,12 @@ export class BackendStack extends cdk.Stack {
 			{ prefix: 'protected' },
 			{ suffix: 'mp4' }
 		)
+
+		new cdk.CfnOutput(this, 'videoAPIURL', {
+			value: videoAPI.resources.graphqlApi.apiId,
+		})
+		new cdk.CfnOutput(this, 'userpool id', {
+			value: userPool.userPoolId,
+		})
 	}
 }
