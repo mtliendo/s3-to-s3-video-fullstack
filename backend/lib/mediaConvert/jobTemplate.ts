@@ -12,7 +12,7 @@ export const createVideoDownscaleJob = (
 ) => {
 	const mediaConvertJob = new CfnJobTemplate(scope, 'JobTemplate', {
 		name: `${props.appName}-media-convert-job-template`,
-		settingsJson: {
+		settingsJson: JSON.stringify({
 			outputGroups: [
 				{
 					name: 'File Group',
@@ -34,7 +34,7 @@ export const createVideoDownscaleJob = (
 					],
 				},
 			],
-		},
+		}),
 	})
 
 	return mediaConvertJob
