@@ -13,7 +13,22 @@ export function createVideoDownloadBucket(
 ) {
 	const fileStorageBucket = new s3.Bucket(
 		scope,
-		`${props.appName}-download-bucket`
+		`${props.appName}-download-bucket`,
+		{
+			cors: [
+				{
+					allowedMethods: [s3.HttpMethods.GET],
+					allowedOrigins: ['*'],
+					allowedHeaders: ['*'],
+					exposedHeaders: [
+						'x-amz-server-side-encryption',
+						'x-amz-request-id',
+						'x-amz-id-2',
+						'ETag',
+					],
+				},
+			],
+		}
 	)
 
 	return fileStorageBucket
