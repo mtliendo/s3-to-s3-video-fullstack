@@ -49,7 +49,7 @@ export const createVideoDownscaleJob = (
 					OutputGroupSettings: {
 						Type: 'FILE_GROUP_SETTINGS',
 						FileGroupSettings: {
-							Destination: 's3://cdk-hnb659fds-assets-842537737558-us-east-2/',
+							Destination: `s3://${props.destinationBucketName}/protected/`,
 						},
 					},
 				},
