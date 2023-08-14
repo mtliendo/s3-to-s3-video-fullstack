@@ -44,6 +44,7 @@ export const createVideoDownscaleJob = (
 											SampleRate: 48000,
 										},
 									},
+									LanguageCodeControl: 'FOLLOW_INPUT',
 								},
 							],
 						},
