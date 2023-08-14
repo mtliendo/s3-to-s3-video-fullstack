@@ -1,16 +1,34 @@
-import * as cdk from 'aws-cdk-lib';
-import { Construct } from 'constructs';
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
+import * as cdk from 'aws-cdk-lib'
+import { Construct } from 'constructs'
+import { createAuth } from './auth/cognito'
+import { createVideoUploadBucket } from './storage/videoUploadBucket'
+import { createVideoDownloadBucket } from './storage/videoDownloadBucket'
+import { LambdaDestination } from 'aws-cdk-lib/aws-s3-notifications'
+import { createConvertMediaFunction } from './functions/convertMediaFunction/construct'
 
 export class BackendStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
-    super(scope, id, props);
+	constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+		super(scope, id, props)
+		const appName = 's3-to-s3-video-fullstack'
 
-    // The code that defines your stack goes here
+		const convertMediaFunction = createConvertMediaFunction(this, { appName })
 
-    // example resource
-    // const queue = new sqs.Queue(this, 'BackendQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
-  }
+		const { userPool, identityPool, userPoolClient } = createAuth(this, {
+			appName,
+		})
+
+		const videoUploadBucket = createVideoUploadBucket(this, {
+			appName,
+			authenticatedRole: identityPool.authenticatedRole,
+		})
+
+		const videoDownloadBucket = createVideoDownloadBucket(this, {
+			appName,
+			authenticatedRole: identityPool.authenticatedRole,
+		})
+
+		videoUploadBucket.addObjectCreatedNotification(
+			new LambdaDestination(convertMediaFunction)
+		)
+	}
 }
