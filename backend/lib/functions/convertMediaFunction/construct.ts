@@ -13,9 +13,9 @@ export const createConvertMediaFunction = (
 ) => {
 	const convertMediaFunction = new NodejsFunction(
 		scope,
-		`${props.appName}-convertMediaFunction`,
+		`${props.appName}-convert-media-function`,
 		{
-			functionName: `${props.appName}-convertMediaFunction`,
+			functionName: `${props.appName}-convert-media-function`,
 			runtime: Runtime.NODEJS_16_X,
 			handler: 'handler',
 			entry: path.join(__dirname, `./main.ts`),
@@ -25,13 +25,13 @@ export const createConvertMediaFunction = (
 		}
 	)
 
-	// ALLOW PUT METHOD TO ACCESS USER TABLE
-	// convertMediaFunction.addToRolePolicy(
-	// 	new PolicyStatement({
-	// 		actions: ['dynamodb:PutItem'],
-	// 		resources: [props.userTableArn],
-	// 	})
-	// )
+	// Allow create job for mediaconvert
+	convertMediaFunction.addToRolePolicy(
+		new PolicyStatement({
+			actions: ['mediaconvert:CreateJob'],
+			resources: ['*'],
+		})
+	)
 
 	return convertMediaFunction
 }

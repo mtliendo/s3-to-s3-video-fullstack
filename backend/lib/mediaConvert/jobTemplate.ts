@@ -3,6 +3,7 @@ import { Construct } from 'constructs'
 
 type createVideoDownscaleJobProps = {
 	appName: string
+	destinationBucketName: string
 }
 
 export const createVideoDownscaleJob = (
@@ -10,7 +11,7 @@ export const createVideoDownscaleJob = (
 	props: createVideoDownscaleJobProps
 ) => {
 	const mediaConvertJob = new CfnJobTemplate(scope, 'JobTemplate', {
-		name: props.appName,
+		name: `${props.appName}-media-convert-job-template`,
 		settingsJson: {
 			outputGroups: [
 				{
@@ -18,7 +19,7 @@ export const createVideoDownscaleJob = (
 					outputGroupSettings: {
 						type: 'FILE_GROUP_SETTINGS',
 						fileGroupSettings: {
-							destination: 's3://DESTINATION_BUCKET/',
+							destination: `s3://${props.destinationBucketName}/protected/`,
 						},
 					},
 					outputs: [
