@@ -17,7 +17,7 @@ export const createFetchVideoURLFunction = (
 		`fetch-video-url-function`,
 		{
 			functionName: `fetch-video-url-function`,
-			runtime: Runtime.NODEJS_16_X,
+			runtime: Runtime.NODEJS_18_X,
 			handler: 'handler',
 			entry: path.join(__dirname, `./main.ts`),
 			bundling: {
