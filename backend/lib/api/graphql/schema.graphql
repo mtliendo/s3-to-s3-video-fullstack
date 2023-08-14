@@ -1,0 +1,5 @@
+type Query {
+	fetchVideoURL(key: String!): AWSURL!
+		@auth(rules: [{ allow: private }])
+		@function(name: "fetch-video-url-function")
+}

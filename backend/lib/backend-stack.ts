@@ -7,6 +7,7 @@ import { LambdaDestination } from 'aws-cdk-lib/aws-s3-notifications'
 import { createConvertMediaFunction } from './functions/convertMediaFunction/construct'
 import { createMediaConvertRole } from './mediaConvert/role'
 import { createVideoDownscaleJob } from './mediaConvert/jobTemplate'
+import { createFetchVideoURLFunction } from './functions/fetchVideoURL/construct'
 
 export class BackendStack extends cdk.Stack {
 	constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -51,6 +52,16 @@ export class BackendStack extends cdk.Stack {
 		convertMediaFunction.addEnvironment(
 			'JOB_TEMPLATE_NAME',
 			mediaConvertJobTemplate.attrArn
+		)
+
+		const fetchVideoURLFunction = createFetchVideoURLFunction(this, {
+			appName,
+			destinationBucketArn: videoDownloadBucket.bucketArn,
+		})
+
+		fetchVideoURLFunction.addEnvironment(
+			'BUCKET_NAME',
+			videoDownloadBucket.bucketName
 		)
 
 		videoUploadBucket.addObjectCreatedNotification(
