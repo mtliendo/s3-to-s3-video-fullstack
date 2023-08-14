@@ -1,6 +1,6 @@
 import { S3 } from 'aws-sdk'
 
-const s3 = new S3()
+const s3 = new S3({ region: 'us-east-1' })
 
 export const handler = async (event: any) => {
 	// parse the body from the event
