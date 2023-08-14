@@ -8,6 +8,7 @@ import { createConvertMediaFunction } from './functions/convertMediaFunction/con
 import { createMediaConvertRole } from './mediaConvert/role'
 import { createVideoDownscaleJob } from './mediaConvert/jobTemplate'
 import { createFetchVideoURLFunction } from './functions/fetchVideoURL/construct'
+import { createAmplifyGraphqlApi } from './api/appsync'
 
 export class BackendStack extends cdk.Stack {
 	constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -16,6 +17,13 @@ export class BackendStack extends cdk.Stack {
 
 		const { userPool, identityPool, userPoolClient } = createAuth(this, {
 			appName,
+		})
+
+		const videoAPI = createAmplifyGraphqlApi(this, {
+			appName,
+			userpool: userPool,
+			authenticatedRole: identityPool.authenticatedRole,
+			unauthenticatedRole: identityPool.unauthenticatedRole,
 		})
 
 		const videoUploadBucket = createVideoUploadBucket(this, {
