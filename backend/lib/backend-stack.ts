@@ -43,6 +43,10 @@ export class BackendStack extends cdk.Stack {
 
 		convertMediaFunction.addEnvironment('ROLE_ARN', mediaConvertRole.roleArn)
 		convertMediaFunction.addEnvironment(
+			'ENDPOINT',
+			`https://q25wbt2lc.mediaconvert.${this.region}.amazonaws.com`
+		)
+		convertMediaFunction.addEnvironment(
 			'JOB_TEMPLATE_NAME',
 			mediaConvertJobTemplate.attrArn
 		)

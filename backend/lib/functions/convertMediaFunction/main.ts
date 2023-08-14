@@ -1,7 +1,10 @@
 import { S3Handler } from 'aws-lambda'
 import { MediaConvert } from 'aws-sdk'
 
-const mediaConvert = new MediaConvert()
+const mediaConvert = new MediaConvert({
+	apiVersion: '2017-08-29',
+	endpoint: process.env.ENDPOINT,
+})
 
 export const handler: S3Handler = async (event) => {
 	const bucket = event.Records[0].s3.bucket.name
