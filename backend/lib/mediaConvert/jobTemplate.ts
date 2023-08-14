@@ -37,14 +37,16 @@ export const createVideoDownscaleJob = (
 							AudioDescriptions: [
 								{
 									CodecSettings: {
-										Codec: 'AAC',
-										AacSettings: {
-											Bitrate: 96000,
-											CodingMode: 'CODING_MODE_2_0',
-											SampleRate: 48000,
+										Codec: 'PASSTHROUGH',
+									},
+									SelectorSettings: {
+										AudioSelector: {
+											DefaultSelection: 'DEFAULT',
+											Offset: 0,
+											SelectorType: 'PID',
+											ProgramSelection: 1,
 										},
 									},
-									LanguageCodeControl: 'FOLLOW_INPUT',
 								},
 							],
 						},
