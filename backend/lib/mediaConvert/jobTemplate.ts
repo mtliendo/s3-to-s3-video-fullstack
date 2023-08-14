@@ -24,6 +24,7 @@ export const createVideoDownscaleJob = (
 					},
 					Outputs: [
 						{
+							ContainerSettings: { Container: 'MP4' },
 							VideoDescription: {
 								CodecSettings: {
 									Codec: 'H_264',
