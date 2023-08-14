@@ -13,6 +13,17 @@ export const createVideoDownscaleJob = (
 	const mediaConvertJob = new CfnJobTemplate(scope, 'JobTemplate', {
 		name: `${props.appName}-media-convert-job-template`,
 		settingsJson: {
+			Inputs: [
+				{
+					AudioSelectors: {
+						'Audio Selector 1': {
+							Offset: 0,
+							DefaultSelection: 'DEFAULT',
+							ProgramSelection: 1,
+						},
+					},
+				},
+			],
 			OutputGroups: [
 				{
 					Name: 'File Group',
@@ -36,6 +47,7 @@ export const createVideoDownscaleJob = (
 							},
 							AudioDescriptions: [
 								{
+									AudioSelectorName: 'Audio Selector 1',
 									CodecSettings: {
 										Codec: 'PASSTHROUGH',
 									},
