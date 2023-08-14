@@ -31,6 +31,8 @@ export const createVideoDownscaleJob = (
 										SceneChangeDetect: 'TRANSITION_DETECTION',
 									},
 								},
+								Width: 1920,
+								Height: 1080,
 							},
 							AudioDescriptions: [
 								{
