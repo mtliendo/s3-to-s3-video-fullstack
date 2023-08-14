@@ -47,7 +47,6 @@ export const createVideoDownscaleJob = (
 							},
 							AudioDescriptions: [
 								{
-									AudioSelectorName: 'Audio Selector 1',
 									CodecSettings: {
 										Codec: 'PASSTHROUGH',
 									},
