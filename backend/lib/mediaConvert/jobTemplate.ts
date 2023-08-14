@@ -12,29 +12,29 @@ export const createVideoDownscaleJob = (
 ) => {
 	const mediaConvertJob = new CfnJobTemplate(scope, 'JobTemplate', {
 		name: `${props.appName}-media-convert-job-template`,
-		settingsJson: JSON.stringify({
-			outputGroups: [
+		settingsJson: {
+			OutputGroups: [
 				{
-					name: 'File Group',
-					outputGroupSettings: {
-						type: 'FILE_GROUP_SETTINGS',
-						fileGroupSettings: {
-							destination: `s3://${props.destinationBucketName}/protected/`,
+					Name: 'File Group',
+					OutputGroupSettings: {
+						Type: 'FILE_GROUP_SETTINGS',
+						FileGroupSettings: {
+							Destination: `s3://${props.destinationBucketName}/protected/`,
 						},
 					},
-					outputs: [
+					Outputs: [
 						{
-							videoDescription: {
-								height: 1080,
-								codecSettings: {
-									codec: 'H_264',
+							VideoDescription: {
+								Height: 1080,
+								CodecSettings: {
+									Codec: 'H_264',
 								},
 							},
 						},
 					],
 				},
 			],
-		}),
+		},
 	})
 
 	return mediaConvertJob
