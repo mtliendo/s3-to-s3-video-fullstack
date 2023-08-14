@@ -26,9 +26,6 @@ export class BackendStack extends cdk.Stack {
 			appName,
 			authenticatedRole: identityPool.authenticatedRole,
 		})
-		const convertMediaFunction = createConvertMediaFunction(this, {
-			appName,
-		})
 
 		const mediaConvertRole = createMediaConvertRole(this, {
 			appName,
@@ -39,6 +36,11 @@ export class BackendStack extends cdk.Stack {
 		const mediaConvertJobTemplate = createVideoDownscaleJob(this, {
 			appName,
 			destinationBucketName: videoDownloadBucket.bucketName,
+		})
+
+		const convertMediaFunction = createConvertMediaFunction(this, {
+			appName,
+			mediaConvertArn: mediaConvertRole.roleArn,
 		})
 
 		convertMediaFunction.addEnvironment('ROLE_ARN', mediaConvertRole.roleArn)

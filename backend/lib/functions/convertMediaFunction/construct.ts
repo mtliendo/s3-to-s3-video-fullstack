@@ -6,6 +6,7 @@ import { PolicyStatement } from 'aws-cdk-lib/aws-iam'
 
 type createConvertMediaFunctionProps = {
 	appName: string
+	mediaConvertArn: string
 }
 export const createConvertMediaFunction = (
 	scope: Construct,
@@ -30,6 +31,13 @@ export const createConvertMediaFunction = (
 		new PolicyStatement({
 			actions: ['mediaconvert:CreateJob'],
 			resources: ['*'],
+		})
+	)
+
+	convertMediaFunction.addToRolePolicy(
+		new PolicyStatement({
+			actions: ['iam:PassRole'],
+			resources: [props.mediaConvertArn],
 		})
 	)
 
