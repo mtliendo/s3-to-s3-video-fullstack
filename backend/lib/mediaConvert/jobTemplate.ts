@@ -39,14 +39,6 @@ export const createVideoDownscaleJob = (
 									CodecSettings: {
 										Codec: 'PASSTHROUGH',
 									},
-									SelectorSettings: {
-										AudioSelector: {
-											DefaultSelection: 'DEFAULT',
-											Offset: 0,
-											SelectorType: 'PID',
-											ProgramSelection: 1,
-										},
-									},
 								},
 							],
 						},
