@@ -11,7 +11,7 @@ export const handler = async (event: any) => {
 
 	const url = s3.getSignedUrl('getObject', {
 		Bucket: bucketName,
-		Key: key,
+		Key: `protected/${key}`,
 		Expires: 3600, // URL expires in 1 hour
 	})
 
