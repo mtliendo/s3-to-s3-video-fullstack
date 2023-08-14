@@ -25,10 +25,14 @@ export const createVideoDownscaleJob = (
 					Outputs: [
 						{
 							VideoDescription: {
-								Height: 1080,
 								CodecSettings: {
 									Codec: 'H_264',
+									H264Settings: {
+										RateControlMode: 'QVBR',
+										SceneChangeDetect: 'TRANSITION_DETECTION',
+									},
 								},
+								Height: 1080,
 							},
 						},
 					],
