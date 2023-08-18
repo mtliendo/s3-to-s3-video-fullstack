@@ -72,6 +72,7 @@ export class BackendStack extends cdk.Stack {
 			'BUCKET_NAME',
 			videoDownloadBucket.bucketName
 		)
+		fetchVideoURLFunction.addEnvironment('REGION', this.region)
 
 		videoUploadBucket.addObjectCreatedNotification(
 			new LambdaDestination(convertMediaFunction),

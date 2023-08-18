@@ -28,8 +28,8 @@ export const createFetchVideoURLFunction = (
 
 	fetchVideoURLFunction.addToRolePolicy(
 		new PolicyStatement({
-			actions: ['s3:getObject'],
-			resources: [props.destinationBucketArn],
+			actions: ['s3:GetObject'],
+			resources: [`${props.destinationBucketArn}/protected/*`],
 		})
 	)
 
